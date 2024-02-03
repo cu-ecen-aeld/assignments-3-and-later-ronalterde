@@ -14,5 +14,5 @@ if [ ! -d $filesdir ]; then
 fi
 
 number_of_files=$(find "$filesdir" -type f | wc --lines)
-number_of_matches=$(find "$filesdir" -type f | xargs grep --count $searchstr | cut -d: -f 2 | xargs | sed -e 's/\ /+/g' | bc)
+number_of_matches=$(find "$filesdir" -type f | xargs grep $searchstr | wc --lines)
 echo "The number of files are $number_of_files and the number of matching lines are $number_of_matches"
