@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 /**
  * @param cmd the command to execute with system()
@@ -130,6 +131,47 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
 */
 
     va_end(args);
+
+    int fd = open(outputfile, O_WRONLY|O_TRUNC|O_CREAT, 0644);
+    if (fd < 0) { perror("open"); abort(); }
+
+    pid_t pid = fork();
+
+    if (pid == 0)
+    {
+        /* child */
+        if (dup2(fd, 1) < 0) { perror("dup2"); abort(); }
+
+        // execv(command[0], &command[1]);
+        execv(command[0], command);
+        /* We only end up here if there was an error replacing the process image. */
+        return false;
+
+    } else if (pid == -1)
+    {
+        /* error creating child */
+        return false;
+    } else {
+        /* parent */
+        int wstatus = 0;
+        wait(&wstatus);
+        // waitpid(pid, &wstatus, 0);
+        if (WIFEXITED(wstatus))
+        {
+            if (WEXITSTATUS(wstatus) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     return true;
 }
