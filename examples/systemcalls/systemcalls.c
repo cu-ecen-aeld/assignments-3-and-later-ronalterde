@@ -72,7 +72,7 @@ bool do_exec(int count, ...)
         // execv(command[0], &command[1]);
         execv(command[0], command);
         /* We only end up here if there was an error replacing the process image. */
-        return false;
+        abort();
 
     } else if (pid == -1)
     {
