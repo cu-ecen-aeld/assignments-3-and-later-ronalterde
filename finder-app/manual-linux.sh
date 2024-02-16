@@ -104,16 +104,15 @@ sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 5 1
 
 # TODO: Clean and build the writer utility
-CROSS_COMPILE=aarch64-none-linux-gnu- make -C ~/src/cu-boulder-advanced-embedded/assignment-1-ronalterde/finder-app/ clean all
+CROSS_COMPILE=aarch64-none-linux-gnu- make -C "${FINDER_APP_DIR}/" clean all
 
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
-APP_DIR="/home/steffen/src/cu-boulder-advanced-embedded/assignment-1-ronalterde/finder-app"
-cp ${APP_DIR}/finder.sh ${OUTDIR}/rootfs/home/
-cp ${APP_DIR}/finder-test.sh ${OUTDIR}/rootfs/home/
-cp ${APP_DIR}/writer ${OUTDIR}/rootfs/home/
-cp ${APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home/
-cp -r ${APP_DIR}/conf/ ${OUTDIR}/rootfs/home/
+cp ${FINDER_APP_DIR}/finder.sh ${OUTDIR}/rootfs/home/
+cp ${FINDER_APP_DIR}/finder-test.sh ${OUTDIR}/rootfs/home/
+cp ${FINDER_APP_DIR}/writer ${OUTDIR}/rootfs/home/
+cp ${FINDER_APP_DIR}/autorun-qemu.sh ${OUTDIR}/rootfs/home/
+cp -r ${FINDER_APP_DIR}/conf/ ${OUTDIR}/rootfs/home/
 
 # TODO: Chown the root directory
 cd ${OUTDIR}/rootfs
