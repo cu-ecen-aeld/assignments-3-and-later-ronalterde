@@ -5,7 +5,7 @@
 set -e
 set -u
 
-CONF_DIR=/etc/finder-app
+CONF_DIR=/etc/finder-app/conf
 NUMFILES=10
 WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
@@ -61,7 +61,8 @@ done
 
 OUTPUTSTRING=$(finder.sh "$WRITEDIR" "$WRITESTR")
 
-echo ${OUTPUTSTRING} > /tmp/assignment4-result.txt
+# echo ${OUTPUTSTRING} > /tmp/assignment4-result.txt
+writer "/tmp/assignment4-result.txt" "$OUTPUTSTRING"
 
 # remove temporary directories
 rm -rf /tmp/aeld-data
